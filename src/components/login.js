@@ -1,27 +1,74 @@
-import React, { useState } from "react";
+import React from "react";
+import { connect } from 'react-redux';
 import { Link, useNavigate } from "react-router-dom";
+import { setUsername, setPassword, setEmails, setLogged} from "./action";
+import "./log.css";
+import axios from "axios";
 
-const Login = ()=>{
-  const [showAlert, setShowAlert] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-  const handleSubmit = () =>{
-      if(password==="Sam@1234"){
-        setShowAlert(true);
+const Login = ({ username, email, password, setUsername, setEmails, setPassword,setLogged }) => {
+ 
+
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+  };
+
+  const handleEmailChange = (event) => {
+    setEmails(event.target.value);
+    
+  };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+    
+  };
+
+  const handleShowAlert = async(e) => {
+    e.preventDefault();
+      const data = {
+        email: email,
+       password: password
+      };
+      try{
+      const response = await axios.post('http://127.0.0.1:8080/api/v1/auth/authenticate',data)
+      .then((response)=>{
+        console.log(response.data);
+        localStorage.setItem('token',response.data.token);
+        console.log(localStorage.getItem('token'));
+      })      
+      setLogged(true);
+      alert("Login Successful."+username);
+       navigate("/search");
+      
       }
-  }
-    return(
-      <div className="div">
-        <div className="login">
-          <form onSubmit={handleSubmit}>
+      catch(error){
+        alert("Invalid Password");
+      }
+
+  };
+
+  const navigate = useNavigate();
+
+  return (
+    <>
+      
+      <div className="login">
+        <form onSubmit={handleShowAlert}>
             <label className="label">Login</label>
+            <input 
+              value={username} 
+              type="text" 
+              name="name" 
+              placeholder="UserName" 
+              onChange={handleUsernameChange}
+              required 
+            />
+
             <input 
               value={email} 
               type="email" 
               name="email" 
               placeholder="Email" 
-              onChange={(e)=> setEmail(e.target.value)}
+              onChange={handleEmailChange}
               required 
             />
 
@@ -30,17 +77,31 @@ const Login = ()=>{
               type="password" 
               name="password" 
               placeholder="Password" 
-              onChange={(e)=> setPassword(e.target.value)}
+              onChange={handlePasswordChange}
               required 
             />    
             <button>Login</button>
-            {showAlert && (alert("Login Successful."))}
-            {showAlert&&( navigate("/"))}
+           
             <h6>Don't have an account?</h6>
             <Link style={{textDecoration:"none"}} to="/reg"><button>Sign up</button></Link>
-          </form>
-        </div>
-        </div>
-    )
-}
-export default Login;
+          </form> 
+      </div>
+    </>
+  );
+};
+
+const mapStateToProps = (state) => ({
+  username: state.username,
+  email: state.email,
+  password: state.password, 
+  logged: state.logged,
+});
+
+const mapDispatchToProps = {
+  setUsername,
+  setEmails,
+  setPassword,
+  setLogged,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -51,25 +51,20 @@
 	z-index: 1; 
 	top: 0;
 	left: 0;
-	background-color:white ; 
+	background-color:#573b8a; 
 	overflow-x: hidden;
 	padding-top: 60px; 
 	transition: 0.5s;
   }
   
-  .sidepanel a {
-	padding: 8px 8px 8px 25px;
+  .sidepanel li {
 	text-decoration: none;
 	font-size: 25px;
-	color: #573b8a;
+	color: white;
 	display: block;
 	transition: 0.3s;
   }
-  
-  .sidepanel a:hover {
-	color: #3a285a;
-  }
-  
+
   .sidepanel .closebtn {
 	cursor: pointer;
 	position: absolute;
@@ -82,5 +77,5 @@
 	margin: 100px;
 	color: white;
   }
- 
+
   

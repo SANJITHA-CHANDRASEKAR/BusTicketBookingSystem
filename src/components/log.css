@@ -8,6 +8,7 @@ label{
 	cursor: pointer;
 	transition: .5s ease-in-out;
 }
+
 input{
 	width: 60%;
 	height: 20px;
@@ -23,8 +24,9 @@ input{
 select{
 	width: 65%;
 	height: 40px;
-	background: #e0dede; 
+	background: white; 
 	border-radius: 5px;
+	border: none;
 }
 button{
     text-decoration: none;
@@ -47,18 +49,26 @@ button:hover{
 	background: #3a285a;
 }
 .login{
+	margin-top: 80px;
+	margin-left: 35%;
 	text-align: center;
 	background: #eee;
 	padding-top: 1%;
 	padding-bottom: 1%;
-}
-.div{
-	margin-top: 2%;
-	margin-left: 35%;
 	width:30%;
 	height: fit-content;
 	position:relative;
+	border-radius: 10px;
 }
+
 .errorMsg{
 	color: red;
 }
+
+.back {
+	position: fixed;
+	top: 10px;
+	left: 50px;
+	width: 200px;
+	z-index: 100;
+  }
